@@ -11,6 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+    
       - uses: jamacku/testing-farm-as-github-action@post
         with:
           api_key: ${{ secrets.TF_INTERNAL_API_KEY }}
