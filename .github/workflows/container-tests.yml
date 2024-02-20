@@ -4,20 +4,17 @@ on:
 
 jobs:
   container-tests:
-    runs-on: ubuntu-20.04
-    name: "Container-tests: ${{ matrix.version }} - ${{ matrix.os_test }}"
-    strategy:
-      fail-fast: false
-      matrix:
-        version: [ "1.20", "1.22", "1.22-micro", "1.24" ]
-        os_test: [ "fedora", "rhel7", "rhel8", "rhel9", "c9s", "rhel9-unsubscribed" ]
-        test_case: [ "container" ]
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: sclorg/tfaga-wrapper@main
+      - uses: jamacku/testing-farm-as-github-action@post
         with:
-          os_test: ${{ matrix.os_test }}
-          version: ${{ matrix.version }}
-          test_case: ${{ matrix.test_case }}
-          public_api_key: ${{ secrets.TF_PUBLIC_API_KEY }}
-          private_api_key: ${{ secrets.TF_INTERNAL_API_KEY }}
+          api_key: ${{ secrets.TF_INTERNAL_API_KEY }}
+          compose: "Fedora-latest"
+          git_url: "https://github.com/sclorg/sclorg-testing-farm"
+          git_ref: "master"
+          tf_scope: "public"
+          tmt_plan_regex: "fedora"
+          update_pull_request_status: true
+          pull_request_status_name: Test
+          variables: "REPO_URL=${{ github.server_url }}/${{ github.repository }};REPO_NAME=${{ github.repository }};PR_NUMBER=${{ github.event.issue.number }};SINGLE_VERSION=${{ inputs.version }};OS=${{ steps.vars.outputs.os_test }};TEST_NAME=${{ steps.vars.outputs.test_name }}"
