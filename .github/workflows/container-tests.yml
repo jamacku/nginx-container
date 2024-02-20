@@ -1,7 +1,7 @@
 on:
-  issue_comment:
-    types:
-      - created
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
 jobs:
   container-tests:
     runs-on: ubuntu-20.04
@@ -13,10 +13,6 @@ jobs:
         os_test: [ "fedora", "rhel7", "rhel8", "rhel9", "c9s", "rhel9-unsubscribed" ]
         test_case: [ "container" ]
 
-    if: |
-      github.event.issue.pull_request
-      && (contains(github.event.comment.body, '[test]') || contains(github.event.comment.body, '[test-all]'))
-      && contains(fromJson('["OWNER", "MEMBER"]'), github.event.comment.author_association)
     steps:
       - uses: sclorg/tfaga-wrapper@main
         with:
