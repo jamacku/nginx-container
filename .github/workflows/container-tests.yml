@@ -2,6 +2,10 @@ on:
   pull_request_target:
     types: [opened, synchronize, reopened]
 
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   container-tests:
     runs-on: ubuntu-latest
