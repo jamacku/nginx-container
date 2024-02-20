@@ -1,4 +1,4 @@
-Nginx container images
+Nginx container images \o/
 ======================
 
 [![Build and push container images to quay.io registry](https://github.com/sclorg/nginx-container/actions/workflows/build-and-push.yml/badge.svg)](https://github.com/sclorg/nginx-container/actions/workflows/build-and-push.yml)
